@@ -1,6 +1,7 @@
 package com.example.SpringMVC.controller;
 
-import com.example.SpringMVC.Product;
+import com.example.SpringMVC.domain.Product;
+import com.example.SpringMVC.repository.ProductDAO;
 import com.example.SpringMVC.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,8 @@ import java.util.List;
 @RequestMapping("/shop")
 @AllArgsConstructor
 public class ProductController {
-    private final ProductService productService;
+//    private final ProductService productService;
+    private final ProductDAO productDAO;
 
 //    @GetMapping
 //    @ResponseBody
@@ -22,7 +24,8 @@ public class ProductController {
 //    }
     @GetMapping
     public String getProducts(Model model) {
-        List<Product> products = productService.findAll();
+        //TODO
+        List<Product> products = productDAO.findAll();
         model.addAttribute("products", products);
         return "shop";
     }
@@ -36,7 +39,7 @@ public class ProductController {
 
     @PostMapping("/add-product")
     public String greetingSubmit(@ModelAttribute Product product) {
-        productService.addProduct(product);
+        productDAO.saveOrUpdate(product);
         return "redirect:/shop";
     }
 }

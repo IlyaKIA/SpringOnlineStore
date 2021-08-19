@@ -1,34 +1,33 @@
 package com.example.SpringMVC.service.impl;
 
-import com.example.SpringMVC.Product;
-import com.example.SpringMVC.repository.ProductRepository;
+import com.example.SpringMVC.domain.Product;
+import com.example.SpringMVC.repository.ProductDAO;
 import com.example.SpringMVC.service.ProductService;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
+    private final ProductDAO productDAO;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductServiceImpl(ProductDAO productDAO) {
+        this.productDAO = productDAO;
     }
 
     @Override
     public List<Product> findAll() {
-        return productRepository.findAll();
+        return productDAO.findAll();
     }
 
     @Override
-    public Optional<Product> findById(long id) {
-        return productRepository.findById(id);
+    public Product findById(long id) {
+        return productDAO.findById(id);
     }
 
     @Override
     public Product addProduct(Product product) {
-        return productRepository.addProduct(product);
+        return productDAO.saveOrUpdate(product);
     }
 
 }
