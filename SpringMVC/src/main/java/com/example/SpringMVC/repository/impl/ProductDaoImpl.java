@@ -1,5 +1,6 @@
 package com.example.SpringMVC.repository.impl;
 
+import com.example.SpringMVC.domain.Category;
 import com.example.SpringMVC.domain.Product;
 import com.example.SpringMVC.repository.ProductDAO;
 import org.hibernate.Session;
@@ -20,13 +21,14 @@ public class ProductDaoImpl implements ProductDAO {
                 .configure("config/hibernate.cfg.xml")
                 .buildSessionFactory();
 
-//        Product product = saveOrUpdate(new  Product(3L, "Bred", 45));
+//        Product product = saveOrUpdate(new  Product("Toaster", 750, "Electronics"));
 
 //        System.out.println(findById(2L));
 
 //        System.out.println(findAll());
 
 //        deleteById(1L);
+//        System.out.println(findById(2L));
 
     }
 
@@ -57,6 +59,17 @@ public class ProductDaoImpl implements ProductDAO {
     }
 
     @Override
+    public List<Category> findAllCategory() {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            List<Category> resultList = session.createQuery("select s from Category s", Category.class)
+                    .getResultList();
+            session.getTransaction().commit();
+            return resultList;
+        }
+    }
+
+    @Override
     public void deleteById(Long id){
         try (Session session = factory.getCurrentSession()) {
             session.beginTransaction();
@@ -68,24 +81,36 @@ public class ProductDaoImpl implements ProductDAO {
 
     @Override
     public Product saveOrUpdate(Product product){
-        try(Session session = factory.getCurrentSession()){
-            boolean isNew = true;
+        Category thisCategory = null;
+        try(Session session = factory.getCurrentSession()) {
             session.beginTransaction();
-            List<Product> resultList = session.createQuery("select s from Product s", Product.class)
+            List<Category> resultList = session.createQuery("select s from Category s", Category.class)
                     .getResultList();
-            for(Product p : resultList){
-                if(p.getId() == product.getId()) {
-                    p.setTitle(product.getTitle());
-                    p.setPrice(product.getPrice());
-                    session.persist(p);
-                    isNew = false;
+            String categoryTitle = product.getCategory().getTitle();
+            for (Category p : resultList) {
+                if (categoryTitle.equals(p.getTitle())) {
+                    thisCategory = p;
                 }
             }
-            if(isNew){
-                session.save(product);
+            if (thisCategory != null) {
+                product.setCategory(thisCategory);
+            } else {
+                thisCategory = new Category(product.getCategory().getTitle());
+                session.save(thisCategory);
             }
             session.getTransaction().commit();
         }
+        try(Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            product.setCategory(thisCategory);
+            session.saveOrUpdate(product);
+            session.getTransaction().commit();
+        }
         return product;
+    }
+
+    @Override
+    public List<Product> findProductsByCategory() {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.SpringMVC.repository;
 
+import com.example.SpringMVC.domain.Category;
 import com.example.SpringMVC.domain.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,9 +9,6 @@ import org.hibernate.cfg.Configuration;
 import java.util.List;
 
 public interface ProductDAO {
-//    public SessionFactory sessionFactory = null;
-//
-//    public void init();
 
     public void shutdown();
 
@@ -18,7 +16,11 @@ public interface ProductDAO {
 
     List<Product> findAll();
 
+    List<Category> findAllCategory();
+
     void deleteById(Long id);
 
     Product saveOrUpdate(Product product);
+
+    List<Product> findProductsByCategory();
 }

@@ -12,6 +12,7 @@
                 <th>ID</th>
                 <th>Наименование</th>
                 <th>Стоимость</th>
+                <th>Категория</th>
             </tr>
         </thead>
         <tbody>
@@ -19,11 +20,17 @@
                 <td th:text="${p.id}"></td>
                 <td th:text="${p.title}"></td>
                 <td th:text="${p.price}"></td>
+                <td> <a th:text="${p.category.title}" th:href="@{?category={category}(category=${p.category.title})}"> </a></td>
             </tr>
         </tbody>
     </table>
+    <br>
     <form action="http://localhost:8080/shop/add-product/">
         <input type="submit" value="Add new product" />
+    </form>
+    <br>
+    <form action="http://localhost:8080/shop">
+        <input type="submit" value="Show all" />
     </form>
 </body>
 </html>

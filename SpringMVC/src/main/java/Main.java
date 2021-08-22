@@ -1,4 +1,5 @@
 import com.example.SpringMVC.repository.impl.ProductDaoImpl;
+import org.flywaydb.core.Flyway;
 
 public class Main {
 
@@ -8,7 +9,7 @@ public class Main {
 //                .dataSource("jdbc:postgresql://localhost:5432/simple-app", "postgres", "postgrespass").load();
 //        flyway.migrate();
 
-        ProductDaoImpl productDaoImpl = new ProductDaoImpl();
+        ProductDaoImpl productDaoImpl= new ProductDaoImpl();
         try {
             productDaoImpl.init();
         } finally {
