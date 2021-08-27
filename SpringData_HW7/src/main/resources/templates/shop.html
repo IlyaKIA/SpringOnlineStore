@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Продукты</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Наименование</th>
+                <th>Стоимость</th>
+                <th>Категория</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.title}"></td>
+                <td th:text="${p.price}"></td>
+                <td> <a th:text="${p.category.title}" th:href="@{?category={category}(category=${p.category.title})}"> </a></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p>Фильтр:</p>
+    <form action="#" th:action="@{/shop}" method="get">
+        <p> min price: <input type="text" th:name="minPrise" th:value="${minPrise}"/></p>
+        <p> max price: <input type="text" th:name="maxPrise" th:value="${maxPrise}"/></p>
+        <p> name: <input type="text" th:name="symbolsSet" th:value="0" /></p>
+        <p><input type="Submit" value="filter" /></p>
+    </form>
+    <form action="/shop">
+        <input type="submit" value="Show all" />
+    </form>
+    <br>
+    <form action="/shop/add-product/">
+        <input type="submit" value="Add new product" />
+    </form>
+</body>
+</html>
