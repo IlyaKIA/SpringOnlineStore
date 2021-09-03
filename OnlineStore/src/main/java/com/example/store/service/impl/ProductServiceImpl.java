@@ -114,4 +114,9 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
+    @Override
+    public Optional<Product> saveProduct(Product product) {
+        return Optional.of(productRepository.save(product));
+    }
+
 }

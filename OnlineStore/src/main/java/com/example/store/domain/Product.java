@@ -1,11 +1,14 @@
 package com.example.store.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,6 +26,7 @@ public class Product {
     @Column
     private Integer price;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Category category;

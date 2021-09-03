@@ -26,4 +26,6 @@ public interface ProductService {
     void deleteProduct(Long id);
 
     Product saveProductWithPicture(Product product, MultipartFile image);
+
+    Optional<Product> saveProduct(Product product);
 }

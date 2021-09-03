@@ -1,5 +1,6 @@
 package com.example.store.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Category {
     @Column
     private String title;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "category")
     List<Product> products;
 
