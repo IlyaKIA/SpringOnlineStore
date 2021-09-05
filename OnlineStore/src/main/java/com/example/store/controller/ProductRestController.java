@@ -34,7 +34,7 @@ public class ProductRestController {
         return productService.saveProduct(product);
     }
 
-    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping
     public Optional<Product> updateProduct (Product product) {
         return productService.saveProduct(product);
     }
