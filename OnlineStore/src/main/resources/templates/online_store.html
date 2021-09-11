@@ -43,8 +43,8 @@
             </div>
               <label class="text-muted">Category: </label>
               <select class="custom-select mb-3" th:name="selectedCategory">
-                  <option selected>All</option>
-                  <option th:each="c : ${categoryList}" th:text="${c.title}" th:value="${c.title}">Category name</option>
+                <option selected>All</option>
+                <option th:each="c : ${categoryList}" th:text="${c.title}" th:value="${c.title}">Category name</option>
               </select>
             <button type="submit" class="btn btn-primary">Apply</button>
           </form>
@@ -56,16 +56,20 @@
               <div class="card h-100">
                 <img th:src="@{${p.picturePath}}" class="card-img-top p-4" alt="Product image">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${p.title}">Card title</h5>
-                    <p class="card-text">Category:
-                      <a th:text="${p.category.title}"
-                         th:href="@{?selectedCategory={category}(category=${p.category.title})}">
-                          Category
-                      </a>
-                    </p>
-                    <p>Priсe: <span th:text="${p.price}"></span>p</p>
-                    <a th:href="@{/shop/delete(id=${p.id})}" class="btn btn-danger">Remove</a>
-                    <a href="#" class="btn btn-primary">Edit</a>
+                  <h5 class="card-title" th:text="${p.title}">Card title</h5>
+                  <p class="card-text">Category:
+                    <a th:text="${p.category.title}"
+                       th:href="@{/shop(selectedCategory=${p.category.title})}">
+                        Category
+                    </a>
+                  </p>
+                  <p>Priсe: <span th:text="${p.price}"></span>p</p>
+                  <a th:href="@{/shop/delete(id=${p.id})}" class="btn btn-danger">Remove</a>
+                  <a href="#" class="btn btn-primary">Edit</a>
+                  <form th:action="@{/shop/cart/add-product-to-cart}" method="post">
+                    <input type="text"  th:name="id" th:value="${p.id}" hidden>
+                    <button class="btn btn-primary" type="submit">Add to cart</button>
+                  </form>
                 </div>
               </div>
             </div>

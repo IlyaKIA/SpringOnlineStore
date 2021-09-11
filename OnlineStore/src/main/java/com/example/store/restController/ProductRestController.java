@@ -1,4 +1,4 @@
-package com.example.store.controller;
+package com.example.store.restController;
 
 import com.example.store.domain.Product;
 import com.example.store.error.ProductNotFoundException;
@@ -6,15 +6,13 @@ import com.example.store.error.ProductNotFoundException.*;
 import com.example.store.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/shop")
+@RequestMapping("/api/v1/shop/product")
 @AllArgsConstructor
 public class ProductRestController {
     private final ProductService productService;
@@ -30,12 +28,12 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public Optional<Product> addProduct(Product product) {
+    public Product addProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }
 
     @PutMapping
-    public Optional<Product> updateProduct (Product product) {
+    public Product updateProduct (@RequestBody Product product) {
         return productService.saveProduct(product);
     }
 
