@@ -27,7 +27,7 @@ public class Product {
     @Column
     private Integer price;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Category category;

@@ -6,13 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ProductService {
 
     List<Product> findAllProducts();
 
     Optional<Product> findById(long id);
-    ProductDTO findByIdDTO(long id);
 
     Product  addProduct(Product product);
 

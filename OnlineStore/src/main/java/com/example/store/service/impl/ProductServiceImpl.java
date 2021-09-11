@@ -1,5 +1,6 @@
 package com.example.store.service.impl;
 
+import com.example.store.convertor.ProductConvertor;
 import com.example.store.domain.Category;
 import com.example.store.domain.Product;
 import com.example.store.dto.ProductDTO;
@@ -17,6 +18,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -31,23 +33,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProducts() {
-        List<Product> allProducts = productRepository.findAll();
-        return allProducts;
+        return productRepository.findAll();
     }
 
     @Override
     public Optional<Product> findById(long id) {
         return productRepository.findById(id);
-    }
-
-    @Override
-    public ProductDTO findByIdDTO(long id) {
-        Product productEntity = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        return ProductDTO.builder()
-                .id(productEntity.getId())
-                .price(productEntity.getPrice())
-                .title(productEntity.getTitle())
-                .build();
     }
 
     @Override
@@ -85,11 +76,6 @@ public class ProductServiceImpl implements ProductService {
             if(category.equals("All")) return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrice, maxPrice);
             else return productRepository.findByCategory_TitleEqualsAndPriceGreaterThanEqualAndPriceLessThanEqual(category, minPrice, maxPrice);
         }
-
-//        if(category == null && minPrise != null)
-//            return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrise, maxPrise);
-//        if(category == null && minPrise != null)
-//            return productRepository.findByTitleLike("%" + titleLike + "%");
         return null;
     }
 
