@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -27,15 +27,13 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="form-inline">
-                  <div class="d-flex">
-                      <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2">Войти</a>
-                      <a th:href="@{/user/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2">Регистрация</a>
-                      <a th:href="@{/shop/cart}" class="btn btn-outline-primary mr-3">Cart</a>
+                      <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2 mr-2">Войти</a>
+                      <a th:href="@{/auth/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2 mr-2">Регистрация</a>
+                      <a th:href="@{/shop/cart}" sec:authorize="isAuthenticated()" class="btn btn-outline-primary mr-3 ">Cart</a>
                       <form class="form-inline my-2 my-lg-0" th:action="@{/shop}" method="get">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  th:name="search" th:value="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                       </form>
-                  </div>
               </div>
           </nav>
         </div>

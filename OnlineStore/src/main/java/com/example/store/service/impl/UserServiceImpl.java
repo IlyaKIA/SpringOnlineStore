@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setEnable(Long userId, Boolean enable) {
-        User user = userRepository.findById(userId)
+    public void setEnable(String userId, Boolean enable) {
+        User user = userRepository.findByUsername(userId)
                 .orElseThrow(EntityNotFoundException::new);
 
         user.setEnabled(enable);

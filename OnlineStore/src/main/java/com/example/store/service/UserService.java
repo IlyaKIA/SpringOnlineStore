@@ -12,6 +12,6 @@ public interface UserService {
 
     Page<User> findAllByPage(Pageable pageRequest);
 
-    void setEnable(Long userId, Boolean enable);
+    void setEnable(String userId, Boolean enable);
 
 }

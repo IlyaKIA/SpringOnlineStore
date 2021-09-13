@@ -17,8 +17,8 @@ import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/authentication")
-public class authController {
+@RequestMapping("/auth")
+public class AuthController {
 
     private UserService userService;
 
@@ -49,9 +49,9 @@ public class authController {
     }
 
     @GetMapping("/enable")
-    public String setEnableUser(@RequestParam Long userId, @RequestParam Boolean enable) {
+    public String setEnableUser(@RequestParam String userId, @RequestParam Boolean enable) {
         userService.setEnable(userId, enable);
 
-        return "redirect:/authentication/list";
+        return "redirect:/auth/list";
     }
 }

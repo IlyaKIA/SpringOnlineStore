@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -64,11 +64,11 @@
                     </a>
                   </p>
                   <p>Priсe: <span th:text="${p.price}"></span>p</p>
-                  <a th:href="@{/shop/delete(id=${p.id})}" class="btn btn-danger">Remove</a>
-                  <a href="#" class="btn btn-primary">Edit</a>
+                  <a th:href="@{/shop/delete(id=${p.id})}" sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger">Remove</a>
+                  <a href="#" class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')">Edit</a>
                   <form th:action="@{/shop/cart/add-product-to-cart}" method="post">
                     <input type="text"  th:name="id" th:value="${p.id}" hidden>
-                    <button class="btn btn-primary" type="submit">Add to cart</button>
+                    <button class="btn btn-primary" sec:authorize="hasRole('ROLE_USER')" type="submit">Add to cart</button>
                   </form>
                 </div>
               </div>
