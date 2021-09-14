@@ -1,7 +1,9 @@
 package com.example.store.service.impl;
 
+import com.example.store.convertor.ProductConvertor;
 import com.example.store.domain.Category;
 import com.example.store.domain.Product;
+import com.example.store.dto.ProductDTO;
 import com.example.store.repository.ProductRepository;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductService;
@@ -10,11 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.sound.midi.Patch;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,8 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProducts() {
-        List<Product> allProducts = productRepository.findAll();
-        return allProducts;
+        return productRepository.findAll();
     }
 
     @Override
@@ -73,11 +76,6 @@ public class ProductServiceImpl implements ProductService {
             if(category.equals("All")) return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrice, maxPrice);
             else return productRepository.findByCategory_TitleEqualsAndPriceGreaterThanEqualAndPriceLessThanEqual(category, minPrice, maxPrice);
         }
-
-//        if(category == null && minPrise != null)
-//            return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrise, maxPrise);
-//        if(category == null && minPrise != null)
-//            return productRepository.findByTitleLike("%" + titleLike + "%");
         return null;
     }
 
@@ -115,8 +113,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> saveProduct(Product product) {
-        return Optional.of(productRepository.save(product));
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
     }
 
 }

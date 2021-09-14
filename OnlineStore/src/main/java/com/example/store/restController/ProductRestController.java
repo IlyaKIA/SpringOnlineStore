@@ -1,47 +1,44 @@
-package com.example.store.controller;
+package com.example.store.restController;
 
 import com.example.store.domain.Product;
+import com.example.store.dto.ProductDTO;
 import com.example.store.error.ProductNotFoundException;
 import com.example.store.error.ProductNotFoundException.*;
-import com.example.store.service.ProductService;
+import com.example.store.service.ProductDtoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/api/shop")
+@RequestMapping("/api/v1/shop/product")
 @AllArgsConstructor
 public class ProductRestController {
-    private final ProductService productService;
+    private final ProductDtoService productDtoService;
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        Product product = productService.findById(id).orElse(new Product());
-        return productService.findById(id).orElse(new Product());
+    public ProductDTO getProductDtoById(@PathVariable Long id) {
+        return productDtoService.findByIdDTO(id);
     }
     @GetMapping
-    public List<Product> getAllProducts(){
-        return productService.findAllProducts();
+    public Set<ProductDTO> getAllProducts(){
+        return productDtoService.getAllProductsDTO();
     }
 
     @PostMapping
-    public Optional<Product> addProduct(Product product) {
-        return productService.saveProduct(product);
+    public Product addProduct(@RequestBody ProductDTO productDto) {
+        return productDtoService.saveProduct(productDto);
     }
 
     @PutMapping
-    public Optional<Product> updateProduct (Product product) {
-        return productService.saveProduct(product);
+    public Product updateProduct (@RequestBody ProductDTO productDto) {
+        return productDtoService.saveProduct(productDto);
     }
 
     @DeleteMapping("/{id}")
     public int deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productDtoService.deleteProduct(id);
         return HttpStatus.OK.value();
     }
 

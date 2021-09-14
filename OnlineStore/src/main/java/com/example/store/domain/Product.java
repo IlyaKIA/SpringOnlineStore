@@ -1,10 +1,9 @@
 package com.example.store.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Data
@@ -13,6 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
+@ToString(exclude = "category")
+@EqualsAndHashCode(exclude = {"id", "category"})
 public class Product {
 
     @Id
@@ -26,22 +27,11 @@ public class Product {
     @Column
     private Integer price;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @ManyToOne
     @JoinColumn
     private Category category;
 
     @Column
     private String picturePath;
-
-//    public Product(String title, int price) {
-//        this.title = title;
-//        this.price = price;
-//    }
-
-//    public Product(String title, int price, String category) {
-//        this.title = title;
-//        this.price = price;
-//        this.category = new Category(category);
-//    }
 }

@@ -1,10 +1,12 @@
 package com.example.store.service;
 
 import com.example.store.domain.Product;
+import com.example.store.dto.ProductDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ProductService {
 
@@ -27,5 +29,5 @@ public interface ProductService {
 
     Product saveProductWithPicture(Product product, MultipartFile image);
 
-    Optional<Product> saveProduct(Product product);
+    Product saveProduct(Product product);
 }

@@ -7,19 +7,11 @@ import com.example.store.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import org.apache.commons.collections4.CollectionUtils;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/shop")
@@ -27,8 +19,6 @@ import java.util.stream.Collectors;
 public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
-
-//    private final Validator validator;
 
     @GetMapping
     public String getProducts(@RequestParam(value ="selectedCategory", required = false) String category,
@@ -63,14 +53,6 @@ public class ProductController {
     public RedirectView saveNewProduct(@ModelAttribute Product product,
                                        @RequestParam(required = false) MultipartFile image,
                                        RedirectAttributes attributes) {
-//        Set<ConstraintViolation<Product>> violationResult = validator.validate(product);
-//        if (CollectionUtils.isNotEmpty(violationResult)) {
-//            String violations = violationResult.stream()
-//                    .map(ConstraintViolation::getMessage)
-//                    .collect(Collectors.joining("\n"));
-//            attributes.addFlashAttribute("violations", violations);
-//            return new RedirectView("/shop/add-product");
-//        }
 
         productService.saveProductWithPicture(product, image);
         return new RedirectView ("/shop");
