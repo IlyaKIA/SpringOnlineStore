@@ -8,6 +8,9 @@ import com.example.store.repository.ProductRepository;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductService;
 import com.example.store.util.FileUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,8 +35,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> findAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -47,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsFromCategory(String category) {
-        List<Product> products = findAllProducts();
+    public Page<Product> getProductsFromCategory(String category, Pageable pageable) {
+        Page<Product> products = findAllProducts(pageable);
         List<Category> categories =  categoryService.findAllCategory();
         Category categoryFilter = null;
         for (Category c : categories) {
@@ -65,16 +68,17 @@ public class ProductServiceImpl implements ProductService {
                 productsFilter.add(p);
             }
         }
-        return productsFilter;
+        Page<Product> pageOfProduct = new PageImpl<>(productsFilter, pageable, productsFilter.size());
+        return pageOfProduct;
     }
 
     @Override
-    public List<Product> getProductsFiltered(String category, Integer minPrice, Integer maxPrice) {
+    public Page<Product> getProductsFiltered(String category, Integer minPrice, Integer maxPrice, Pageable pageable) {
         if(category != null && minPrice == null)
-            return productRepository.findByCategory_TitleEquals(category);
+            return productRepository.findByCategory_TitleEquals(category, pageable);
         else if(minPrice != null && category != null) {
-            if(category.equals("All")) return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrice, maxPrice);
-            else return productRepository.findByCategory_TitleEqualsAndPriceGreaterThanEqualAndPriceLessThanEqual(category, minPrice, maxPrice);
+            if(category.equals("All")) return productRepository.findByPriceGreaterThanEqualAndPriceLessThanEqual(minPrice, maxPrice, pageable);
+            else return productRepository.findByCategory_TitleEqualsAndPriceGreaterThanEqualAndPriceLessThanEqual(category, minPrice, maxPrice, pageable);
         }
         return null;
     }
@@ -90,8 +94,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsByCharSet(String charSet) {
-        return productRepository.findByTitleLike("%" + charSet + "%");
+    public Page<Product> getProductsByCharSet(String charSet,  Pageable pageable) {
+        return productRepository.findByTitleLike("%" + charSet + "%", pageable);
     }
 
     @Override
