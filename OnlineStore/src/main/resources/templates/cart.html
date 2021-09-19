@@ -21,9 +21,14 @@
 
       <div class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action" th:each="p : ${products}">
-          <a href="#" class="list-group-item-action card-title" th:text="${p.key.title}">A simple default list group item</a>
-          <p>Priсe: <span th:text="${p.value} * ${p.key.price}"></span>p</p>
-          <span class="badge badge-primary badge-pill" th:text="${p.value}">14</span>
+
+            <a href="#" class="list-group-item-action card-title" th:text="${p.key.title}">A simple default list group item</a>
+            <p>Priсe: <span th:text="${p.value} * ${p.key.price}"></span>p</p>
+            <span class="badge badge-primary badge-pill mr-3" th:text="${p.value}">sum</span>
+          <form th:action="@{/shop/cart/delete}" th:method="POST">
+            <input type="hidden" name="id" th:value="${p.key.id}">
+            <button class="btn btn-outline-danger" type="submit">X</button>
+          </form>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
           <a href="#" class="list-group-item-action card-title">Total price: </a>

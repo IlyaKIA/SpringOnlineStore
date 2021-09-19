@@ -40,4 +40,9 @@ public class CartServiceImpl implements CartService {
     public Integer cartSum() {
         return cart.getProducts().stream().map(Product::getPrice).reduce(0, Integer::sum);
     }
+
+    @Override
+    public void deleteProductFromCart(Long id) {
+        cart.deleteProductFromCart(id);
+    }
 }

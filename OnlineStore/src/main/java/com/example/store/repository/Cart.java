@@ -10,4 +10,5 @@ import java.util.List;
 public interface Cart {
     List<Product> getProducts();
     void setProduct(Product addingProduct);
+    void deleteProductFromCart(Long id);
 }

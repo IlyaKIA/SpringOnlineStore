@@ -34,4 +34,10 @@ public class CartController {
         cartService.setProductInCart(productService.findById(id).orElse(new Product()));
         return new RedirectView ("/shop");
     }
+
+    @PostMapping("/delete")
+    public String deleteProductFromCartPost(@RequestParam(value = "id") Long id){
+        cartService.deleteProductFromCart(id);
+        return "redirect:/shop/cart";
+    }
 }

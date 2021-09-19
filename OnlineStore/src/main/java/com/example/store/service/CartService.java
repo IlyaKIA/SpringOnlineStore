@@ -9,4 +9,6 @@ public interface CartService {
     Map<Product, Long> getProductsFromCart();
     void setProductInCart(Product addingProduct);
     Integer cartSum();
+
+    void deleteProductFromCart(Long id);
 }

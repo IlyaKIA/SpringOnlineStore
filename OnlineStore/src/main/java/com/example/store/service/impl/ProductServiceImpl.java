@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getProductsByCharSet(String charSet,  Pageable pageable) {
-        return productRepository.findByTitleLike("%" + charSet + "%", pageable);
+        return productRepository.findByTitleLikeIgnoreCase("%" + charSet + "%", pageable);
     }
 
     @Override
