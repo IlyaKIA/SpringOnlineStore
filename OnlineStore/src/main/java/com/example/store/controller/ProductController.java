@@ -67,20 +67,28 @@ public class ProductController {
         List<Category> categoryList = categoryService.findAllCategory();
         model.addAttribute("product", product);
         model.addAttribute("categoryList", categoryList);
-        return "add-product";
+        return "add-or-edit-product";
     }
 
-    @PostMapping("/add-product")
+    @PostMapping("/add-or-edit-product")
     public RedirectView saveNewProduct(@ModelAttribute Product product,
                                        @RequestParam(required = false) MultipartFile image,
                                        RedirectAttributes attributes) {
-
         productService.saveProductWithPicture(product, image);
         return new RedirectView ("/shop");
     }
 
-    @GetMapping("/delete")
-    public String deleteProduct(@RequestParam(value = "id", required = false) Long id) {
+    @PostMapping("/edit-product")
+    public String getEditProductForm(@RequestParam(value = "id") Long id,
+                                     Model model) {
+        List<Category> categoryList = categoryService.findAllCategory();
+        model.addAttribute("product", productService.findById(id).orElse(new Product()));
+        model.addAttribute("categoryList", categoryList);
+        return "add-or-edit-product";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProduct(@RequestParam(value = "id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/shop";
     }

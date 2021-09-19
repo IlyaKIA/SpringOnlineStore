@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategory_TitleEquals (String categoryTitle, Pageable pageable);
     Page<Product> findByPriceGreaterThanEqualAndPriceLessThanEqual(Integer minPrise, Integer maxPrise, Pageable pageable);
-    Page<Product> findByTitleLike (String titleLike,Pageable pageable);
+    Page<Product> findByTitleLikeIgnoreCase (String titleLike,Pageable pageable);
     Page<Product> findByPriceGreaterThanEqualAndPriceLessThanEqualAndTitleIsLike (Integer minPrise, Integer maxPrise, String titleLike, Pageable pageable);
 
     @Override
