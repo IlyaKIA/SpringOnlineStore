@@ -23,8 +23,10 @@ public class CartServiceImpl implements CartService {
     public Map<Product, Long> getProductsFromCart(){
         List<Product> cartList = cart.getProducts();
         Map<Product, Long> idProductMap = new HashMap<>();
-        for (Product product : cartList) {
-            idProductMap.merge(product, 1L, Long::sum);
+        if(cartList != null) {
+            for (Product product : cartList) {
+                idProductMap.merge(product, 1L, Long::sum);
+            }
         }
         return idProductMap;
     }
@@ -32,5 +34,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void setProductInCart(Product addingProduct){
         cart.setProduct(addingProduct);
+    }
+
+    @Override
+    public Integer cartSum() {
+        return cart.getProducts().stream().map(Product::getPrice).reduce(0, Integer::sum);
     }
 }

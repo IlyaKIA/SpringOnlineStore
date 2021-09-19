@@ -2,6 +2,8 @@ package com.example.store.service;
 
 import com.example.store.domain.Product;
 import com.example.store.dto.ProductDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -10,20 +12,20 @@ import java.util.Set;
 
 public interface ProductService {
 
-    List<Product> findAllProducts();
+    Page<Product> findAllProducts(Pageable pageable);
 
     Optional<Product> findById(long id);
 
     Product  addProduct(Product product);
 
-    List<Product> getProductsFromCategory(String category);
+    Page<Product> getProductsFromCategory(String category,  Pageable pageable);
 
-    List<Product> getProductsFiltered(String category, Integer minPrise, Integer maxPrise);
+    Page<Product> getProductsFiltered(String category, Integer minPrise, Integer maxPrise, Pageable pageable);
 
     Integer getMinPrice();
     Integer getMaxPrice();
 
-    List<Product> getProductsByCharSet(String charSet);
+    Page<Product> getProductsByCharSet(String charSet,  Pageable pageable);
 
     void deleteProduct(Long id);
 

@@ -26,9 +26,3 @@ public class CartImpl implements Cart {
         productsInCart.add(addingProduct);
     }
 }
-
-//class CartItem {
-//    Product product;
-//    int count = 0;
-//    int sumPrice = 0;
-//}

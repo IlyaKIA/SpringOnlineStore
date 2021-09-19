@@ -21,7 +21,11 @@ public class CartController {
 
     @GetMapping
     public String getProducts(Model model) {
+        if(cartService.getProductsFromCart().isEmpty()){
+            return "redirect:/shop";
+        }
         model.addAttribute("products", cartService.getProductsFromCart());
+        model.addAttribute("cartSum", cartService.cartSum());
         return "cart";
     }
 
