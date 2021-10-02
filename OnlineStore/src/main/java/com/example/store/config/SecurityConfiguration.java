@@ -19,8 +19,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         log.info("Jdbc Authentication Manager");
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST,"/api/**").hasAnyRole("ADMIN")
-            .antMatchers("/auth/list").hasAnyRole("ADMIN")
-            .antMatchers("/auth/enable").hasAnyRole("ADMIN")
+            .antMatchers("/auth/list/**").hasAnyRole("ADMIN")
+            .antMatchers("/auth/enable/**").hasAnyRole("ADMIN")
+            .antMatchers("/shop/add-product/**").hasAnyRole("ADMIN")
+            .antMatchers("/shop/edit-product/**").hasAnyRole("ADMIN")
             .anyRequest().permitAll()
         .and()
             .formLogin()

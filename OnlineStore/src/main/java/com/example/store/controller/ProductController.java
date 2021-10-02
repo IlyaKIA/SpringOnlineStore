@@ -2,19 +2,24 @@ package com.example.store.controller;
 
 import com.example.store.domain.Category;
 import com.example.store.domain.Product;
+import com.example.store.domain.authentication.UserProfile;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductService;
+import com.example.store.service.UserProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,6 +29,7 @@ import java.util.stream.IntStream;
 public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final UserProfileService userProfileService;
 
     @GetMapping
     public String getProducts(@RequestParam(value ="selectedCategory", required = false) String category,
@@ -36,8 +42,11 @@ public class ProductController {
         Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
 
         Page<Product> pageOfProducts;
-        if(category == null && minPrice == null && charSet == null)
+        if(category == null && minPrice == null && charSet == null) {
             pageOfProducts = productService.findAllProducts(pageRequest);
+            minPrice = productService.getMinPrice();
+            maxPrice = productService.getMaxPrice();
+        }
         else if(charSet != null) pageOfProducts = productService.getProductsByCharSet(charSet, pageRequest);
         else pageOfProducts = productService.getProductsFiltered(category, minPrice, maxPrice, pageRequest);
         List<Category> categoryList = categoryService.findAllCategory();
@@ -49,15 +58,13 @@ public class ProductController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-        model.addAttribute("minPrice", productService.getMinPrice());
-        model.addAttribute("maxPrice", productService.getMaxPrice());
+        //Authentication check and forwarding user info
+        if (authCheck().isPresent()) model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
+
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("pageOfProducts", pageOfProducts);
         model.addAttribute("categoryList", categoryList);
-//TODO:Page
-
-
-//        Page<Product> page = pageOfProducts;
-//        model.addAttribute("pageOfProducts", pageOfProducts);
         return "online_store";
     }
 
@@ -65,6 +72,9 @@ public class ProductController {
     public String getNewProductForm(Model model) {
         Product product = new Product();
         List<Category> categoryList = categoryService.findAllCategory();
+
+        //Authentication check and forwarding user info
+        if (authCheck().isPresent()) model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
         model.addAttribute("product", product);
         model.addAttribute("categoryList", categoryList);
         return "add-or-edit-product";
@@ -91,5 +101,9 @@ public class ProductController {
     public String deleteProduct(@RequestParam(value = "id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/shop";
+    }
+
+    private Optional<UserProfile> authCheck (){
+        return userProfileService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

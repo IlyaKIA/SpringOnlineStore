@@ -35,6 +35,9 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  th:name="search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                   </form>
+                  <a th:href="@{/shop/cart}" sec:authorize="isAuthenticated()">
+                    <img th:src="@{${userProfile.picturePath}}" class="rounded me-2 ml-2" alt="ProfileIMG" style="width: 38px;">
+                  </a>
               </div>
           </nav>
         </div>

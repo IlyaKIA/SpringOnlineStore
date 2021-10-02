@@ -11,6 +11,7 @@ public class FileUtils {
 
     private static final String IMAGE_FOLDER_PATH = "/data/images";
     private static final String PRODUCT_IMAGE_FOLDER_PATH = IMAGE_FOLDER_PATH + "/product";
+    private static final String USER_IMAGE_FOLDER_PATH = IMAGE_FOLDER_PATH + "/user";
 
     private FileUtils() { }
 
@@ -19,10 +20,23 @@ public class FileUtils {
             throw new IllegalArgumentException("Image file can not be null!");
         }
 
-        createDirectories(Paths.get(System.getProperty("user.dir"), PRODUCT_IMAGE_FOLDER_PATH));
+        createDirectories(Paths.get("/workspace", PRODUCT_IMAGE_FOLDER_PATH));
 
         Path savePath = Paths.get(PRODUCT_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
-        saveFile(imageFile, Paths.get(System.getProperty("user.dir"), savePath.toString()));
+        saveFile(imageFile, Paths.get("/workspace", savePath.toString()));
+
+        return savePath;
+    }
+
+    public static Path saveUserImage(MultipartFile imageFile) {
+        if (imageFile == null) {
+            throw new IllegalArgumentException("Image file can not be null!");
+        }
+
+        createDirectories(Paths.get("/workspace", USER_IMAGE_FOLDER_PATH));
+
+        Path savePath = Paths.get(USER_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
+        saveFile(imageFile, Paths.get("/workspace", savePath.toString()));
 
         return savePath;
     }

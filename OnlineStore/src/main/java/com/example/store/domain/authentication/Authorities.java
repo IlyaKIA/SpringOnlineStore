@@ -1,10 +1,11 @@
 package com.example.store.domain.authentication;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
 @Builder
@@ -16,13 +17,10 @@ import java.util.List;
 public class Authorities {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private String username;
 
     @Column
     private String authority;
-
-
 }
 
