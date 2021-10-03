@@ -8,7 +8,7 @@ CREATE TABLE user_profile (
         foreign key(username)
         references users(username)
 );
-INSERT INTO user_profile (username)
+INSERT INTO user_profile (username, picture_path)
 VALUES
-    ('user1'),
-    ('user2');
+    ('user1', '\data\images\user\blank-profile_640.png'),
+    ('user2', '\data\images\user\blank-profile_640.png');

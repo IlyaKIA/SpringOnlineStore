@@ -17,7 +17,10 @@
                         <a class="text-white" th:href="@{/shop}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="text-white" th:href="@{/shop/add-product/}" sec:authorize="hasRole('ROLE_USER')" >Add new product</a>
+                        <a class="text-white" th:href="@{/shop/add-product/}" sec:authorize="hasRole('ROLE_ADMIN')" >Add new product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-white" th:href="@{/auth/list/}" sec:authorize="hasRole('ROLE_ADMIN')" >User list</a>
                     </li>
                 </ul>
               </div>
