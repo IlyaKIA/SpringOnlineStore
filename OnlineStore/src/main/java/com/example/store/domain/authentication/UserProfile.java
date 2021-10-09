@@ -20,6 +20,9 @@ public class UserProfile {
     private String username;
 
     @Column
+    private String name;
+
+    @Column
     private String email;
 
     @Column

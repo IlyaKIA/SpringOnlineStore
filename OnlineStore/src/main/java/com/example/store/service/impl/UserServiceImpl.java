@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
         Authorities authorities = new Authorities(user.getUsername(), "ROLE_USER");
         authorities = authService.save(authorities);
-        UserProfile userProfile = new UserProfile(user.getUsername(),null, null, null, "\\data\\images\\user\\blank-profile_640.png" );
+        UserProfile userProfile = new UserProfile(user.getUsername(),null, null, null, null, "\\data\\images\\user\\blank-profile_640.png" );
         userProfileRepository.save(userProfile);
         return user;
     }

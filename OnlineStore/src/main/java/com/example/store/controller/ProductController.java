@@ -92,6 +92,7 @@ public class ProductController {
     public String getEditProductForm(@RequestParam(value = "id") Long id,
                                      Model model) {
         List<Category> categoryList = categoryService.findAllCategory();
+        model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
         model.addAttribute("product", productService.findById(id).orElse(new Product()));
         model.addAttribute("categoryList", categoryList);
         return "add-or-edit-product";

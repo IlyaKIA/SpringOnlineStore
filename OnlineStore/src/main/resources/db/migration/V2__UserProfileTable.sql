@@ -1,5 +1,6 @@
 CREATE TABLE user_profile (
     username text not null primary key,
+    name text,
     email text,
     phone_number text,
     city text,
