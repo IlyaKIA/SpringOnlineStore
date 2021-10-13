@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -44,7 +45,7 @@ public class ProductDtoServiceImpl implements ProductDtoService {
     @Override
     @Transactional
     public void deleteProduct(Long id) {
-        Product product = productRepository.getById(id);
-        productRepository.delete(product);
+        Optional<Product> product = productRepository.findById(id);
+        productRepository.delete(product.orElse(new Product()));
     }
 }
