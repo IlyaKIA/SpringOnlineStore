@@ -1,0 +1,43 @@
+version: '3.2'
+
+services:
+  postgres:
+    image: postgres:9.6
+    container_name: shop-db
+    volumes:
+      - type: volume
+        source: simple-app-postgres
+        target: /var/lib/postgresql/dataConfig
+    environment:
+      POSTGRES_DB: simple-app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespass
+#    ports:
+#      - "5432:5432"
+  #    restart: always
+# jdbc:postgresql://localhost:5432/simple-app
+
+  online-shop:
+    image: online-shop:0.0.1-SNAPSHOT
+    container_name: my-online-shop
+#    volumes:
+#      - type: volume
+#        source: web-pic
+#        target: /workspace/data
+    ports:
+      - "80:9000"
+
+    environment:
+      DATABASE_HOST: postgres
+#    restart: always
+    links:
+      - postgres
+
+volumes:
+  simple-app-postgres:
+    driver: local
+#  web-pic:
+#    driver: local
+
+
+

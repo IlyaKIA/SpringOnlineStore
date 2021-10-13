@@ -1,19 +1,21 @@
 package com.example.store.controller;
 
 import com.example.store.domain.authentication.User;
+import com.example.store.domain.authentication.UserProfile;
+import com.example.store.service.UserProfileService;
 import com.example.store.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -21,6 +23,23 @@ import javax.validation.Valid;
 public class AuthController {
 
     private UserService userService;
+    private UserProfileService userProfileService;
+
+    @GetMapping("/edit-profile")
+    public String editUserProfile(@RequestParam String UserName, Model model) {
+        if(SecurityContextHolder.getContext().getAuthentication().getName().equals(UserName)) {
+            UserProfile userProfile = userProfileService.findByName(UserName).orElse(new UserProfile());
+            model.addAttribute("userProfile", userProfile);
+            return "authentication/user-profile";
+        } else return "redirect:/shop"; //TODO: error msg
+    }
+
+    @PostMapping("/edit-profile")
+    public String saveUserProfile(@ModelAttribute UserProfile userProfile,
+                                  @RequestParam(required = false) MultipartFile image) {
+        userProfileService.save(userProfile, image);
+        return "redirect:/shop";
+    }
 
     @GetMapping("/list")
     public String getUsers(@RequestParam(required = false) Integer pageNum, Model model) {
@@ -29,6 +48,8 @@ public class AuthController {
         Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
         Page<User> page = userService.findAllByPage(pageRequest);
 
+        //Authentication check and forwarding user info
+        if (authCheck().isPresent()) model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
         model.addAttribute("page", page);
 
         return "authentication/list";
@@ -53,5 +74,9 @@ public class AuthController {
         userService.setEnable(userId, enable);
 
         return "redirect:/auth/list";
+    }
+
+    private Optional<UserProfile> authCheck (){
+        return userProfileService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

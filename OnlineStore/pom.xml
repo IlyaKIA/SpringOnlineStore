@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>SpringData_HW7</artifactId>
+    <artifactId>online-shop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringData_HW7</name>
-    <description>SpringData_HW7</description>
+    <name>online-shop</name>
+    <description>online-shop</description>
     <properties>
         <java.version>16</java.version>
     </properties>
@@ -63,6 +63,11 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
             <version>3.0.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.15.0</version>
         </dependency>
 
     </dependencies>

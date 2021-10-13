@@ -6,6 +6,7 @@ import com.example.store.dto.ProductDTO;
 import com.example.store.repository.ProductRepository;
 import com.example.store.service.ProductDtoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -20,24 +21,28 @@ public class ProductDtoServiceImpl implements ProductDtoService {
     }
 
     @Override
+    @Transactional
     public ProductDTO findByIdDTO(long id) {
         Product productEntity = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return ProductConvertor.convertToDTO(productEntity);
     }
 
     @Override
+    @Transactional
     public Set<ProductDTO> getAllProductsDTO() {
         List<Product> productEntities = productRepository.findAll();
         return ProductConvertor.getAllProductsDTO(productEntities);
     }
 
     @Override
+    @Transactional
     public Product saveProduct(ProductDTO productDto) {
         Product productEntity = ProductConvertor.convertToEntity(productDto);
         return productRepository.save(productEntity);
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long id) {
         Product product = productRepository.getById(id);
         productRepository.delete(product);

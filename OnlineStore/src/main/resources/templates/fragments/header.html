@@ -17,7 +17,10 @@
                         <a class="text-white" th:href="@{/shop}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="text-white" th:href="@{/shop/add-product/}" sec:authorize="hasRole('ROLE_USER')" >Add new product</a>
+                        <a class="text-white" th:href="@{/shop/add-product/}" sec:authorize="hasRole('ROLE_ADMIN')" >Add new product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-white" th:href="@{/auth/list/}" sec:authorize="hasRole('ROLE_ADMIN')" >User list</a>
                     </li>
                 </ul>
               </div>
@@ -27,14 +30,17 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="form-inline">
-                  <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2 mr-2">Sign up</a>
-                  <a th:href="@{/auth/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2 mr-2">Sign in</a>
+                  <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2 mr-2">Sign in</a>
+                  <a th:href="@{/auth/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2 mr-2">Sign up</a>
                   <a th:href="@{/logout}" sec:authorize="isAuthenticated()" class="btn btn-success me-2 mr-2">Sign out</a>
                   <a th:href="@{/shop/cart}" sec:authorize="isAuthenticated()" class="btn btn-outline-primary mr-3 ">Cart</a>
                   <form class="form-inline my-2 my-lg-0" th:action="@{/shop}" method="get">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  th:name="search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                   </form>
+                  <a th:href="@{/auth/edit-profile(UserName=${userProfile.username})}" sec:authorize="isAuthenticated()">
+                    <img th:src="@{${userProfile.picturePath}}" class="rounded me-2 ml-2" alt="ProfileIMG" style="width: 38px;">
+                  </a>
               </div>
           </nav>
         </div>

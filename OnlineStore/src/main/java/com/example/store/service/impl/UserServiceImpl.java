@@ -2,6 +2,8 @@ package com.example.store.service.impl;
 
 import com.example.store.domain.authentication.Authorities;
 import com.example.store.domain.authentication.User;
+import com.example.store.domain.authentication.UserProfile;
+import com.example.store.repository.UserProfileRepository;
 import com.example.store.repository.UserRepository;
 import com.example.store.service.AuthService;
 import com.example.store.service.UserService;
@@ -11,39 +13,41 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
+    private final UserProfileRepository userProfileRepository;
     private final AuthService authService;
-
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        System.out.println(user);
         user = userRepository.save(user);
         Authorities authorities = new Authorities(user.getUsername(), "ROLE_USER");
         authorities = authService.save(authorities);
+        UserProfile userProfile = new UserProfile(user.getUsername(),null, null, null, null, "\\data\\images\\user\\blank-profile_640.png" );
+        userProfileRepository.save(userProfile);
         return user;
     }
 
     @Override
+    @Transactional
     public void setEnable(String userId, Boolean enable) {
         User user = userRepository.findByUsername(userId)
                 .orElseThrow(EntityNotFoundException::new);
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Page<User> findAllByPage(Pageable pageRequest) {
         return userRepository.findAll(pageRequest);
     }
