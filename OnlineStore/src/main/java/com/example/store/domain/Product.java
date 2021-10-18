@@ -1,10 +1,10 @@
 package com.example.store.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -33,4 +33,8 @@ public class Product {
 
     @Column
     private String picturePath;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "product")
+    List<Review> review;
 }

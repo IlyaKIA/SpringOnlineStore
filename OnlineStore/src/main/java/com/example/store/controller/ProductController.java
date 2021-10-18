@@ -2,9 +2,11 @@ package com.example.store.controller;
 
 import com.example.store.domain.Category;
 import com.example.store.domain.Product;
+import com.example.store.domain.Review;
 import com.example.store.domain.authentication.UserProfile;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductService;
+import com.example.store.service.ReviewsService;
 import com.example.store.service.UserProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UserProfileService userProfileService;
+    private final ReviewsService reviewsService;
 
     @GetMapping
     public String getProducts(@RequestParam(value ="selectedCategory", required = false) String category,
@@ -102,6 +105,21 @@ public class ProductController {
     public String deleteProduct(@RequestParam(value = "id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/shop";
+    }
+
+    @GetMapping("/{id}")
+    public String getProductInfo(@PathVariable Long id, Model model){
+        model.addAttribute("product", productService.findById(id).orElse(new Product()));
+        model.addAttribute("productReviews", reviewsService.findByProductId(id));
+        model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
+        model.addAttribute("comment", new Review());
+        return "product-info";
+    }
+
+    @PostMapping("/new-comment")
+    public RedirectView saveNewReview(@ModelAttribute Review review) {
+        reviewsService.saveReview(review);
+        return new RedirectView ("/shop");
     }
 
     private Optional<UserProfile> authCheck (){

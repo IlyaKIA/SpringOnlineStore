@@ -20,10 +20,10 @@ public class FileUtils {
             throw new IllegalArgumentException("Image file can not be null!");
         }
 
-        createDirectories(Paths.get("/workspace", PRODUCT_IMAGE_FOLDER_PATH));
+        createDirectories(Paths.get(System.getProperty("user.dir"), PRODUCT_IMAGE_FOLDER_PATH));
 
         Path savePath = Paths.get(PRODUCT_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
-        saveFile(imageFile, Paths.get("/workspace", savePath.toString()));
+        saveFile(imageFile, Paths.get(System.getProperty("user.dir"), savePath.toString()));
 
         return savePath;
     }
@@ -33,10 +33,10 @@ public class FileUtils {
             throw new IllegalArgumentException("Image file can not be null!");
         }
 
-        createDirectories(Paths.get("/workspace", USER_IMAGE_FOLDER_PATH));
+        createDirectories(Paths.get(System.getProperty("user.dir"), USER_IMAGE_FOLDER_PATH));
 
         Path savePath = Paths.get(USER_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
-        saveFile(imageFile, Paths.get("/workspace", savePath.toString()));
+        saveFile(imageFile, Paths.get(System.getProperty("user.dir"), savePath.toString()));
 
         return savePath;
     }
