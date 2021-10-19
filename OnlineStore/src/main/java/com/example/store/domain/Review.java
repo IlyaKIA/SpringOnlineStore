@@ -1,5 +1,6 @@
 package com.example.store.domain;
 
+import com.example.store.domain.authentication.UserProfile;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "review_and_rating")
 @ToString
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(exclude = "id, username, product")
 public class Review {
 
     @Id
@@ -19,17 +20,16 @@ public class Review {
     @Column
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn
-    @Column
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private UserProfile username;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column
-    private String review;
+    @Column(name = "review")
+    private String comment;
 
     @Column
     private Integer rating;

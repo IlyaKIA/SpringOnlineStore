@@ -109,16 +109,16 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public String getProductInfo(@PathVariable Long id, Model model){
-        model.addAttribute("product", productService.findById(id).orElse(new Product()));
+        model.addAttribute("main_product", productService.findById(id).orElse(new Product()));
         model.addAttribute("productReviews", reviewsService.findByProductId(id));
         model.addAttribute("userProfile", authCheck().orElse(new UserProfile()));
-        model.addAttribute("comment", new Review());
+        model.addAttribute("new_review", new Review());
         return "product-info";
     }
 
     @PostMapping("/new-comment")
-    public RedirectView saveNewReview(@ModelAttribute Review review) {
-        reviewsService.saveReview(review);
+    public RedirectView saveNewReview(@ModelAttribute Review new_review) {
+        reviewsService.saveReview(new_review);
         return new RedirectView ("/shop");
     }
 

@@ -6,7 +6,6 @@ import com.example.store.repository.ReviewsRepository;
 import com.example.store.service.ProductService;
 import com.example.store.service.ReviewsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,6 @@ public class ReviewsServiceImpl implements ReviewsService {
     @Transactional
     @Override
     public Review saveReview(Review review) {
-        review.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         return reviewsRepository.save(review);
     }
 

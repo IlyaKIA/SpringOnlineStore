@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ReviewsRepository extends JpaRepository<Review, Long> {
     List<Review> findAllByProduct(Product product);
-    Review save(Review review);
 }

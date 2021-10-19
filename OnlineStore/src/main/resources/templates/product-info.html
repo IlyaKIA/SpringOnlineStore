@@ -12,25 +12,27 @@
 
     <div th:replace="~{fragments/header::header}">Header</div>
         <div class="container">
-            <h1 class="display-4 d-flex justify-content-around mt-5 pt-3" th:text="${product.title}"> Header </h1>
+            <h1 class="display-4 d-flex justify-content-around mt-5 pt-3" th:text="${main_product.title}"> Header </h1>
             <div class="d-flex justify-content-around">
-                <img th:src="@{${product.picturePath}}" class="rounded mb-3" alt="ProductIMG" style="width: 250px;">
+                <img th:src="@{${main_product.picturePath}}" class="rounded mb-3" alt="ProductIMG" style="width: 250px;">
             </div>
-            <p>Category: <span th:text="${product.category.title}"></span></p>
-            <p>Price: <span th:text="${product.price}"></span></p>
+            <p>Category: <span th:text="${main_product.category.title}"></span></p>
+            <p>Price: <span th:text="${main_product.price}"></span></p>
             <p>Comments:</p>
-            <div th:each="review : ${productReviews}">
-                <p>User: <span th:text="${review.review}"></span>
-                         <p th:text="${review.rating}"></p>
-                </p>
+            <div class="list-group">
+                <div class="list-group-item list-group-item-action" th:each="review : ${productReviews}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${review.username.username} + ':'"></h5>
+                        <small th:text="'&#9733;' + ${review.rating}"></small>
+                    </div>
+                    <p class="mb-1" th:text="${review.comment}">Comment</p>
+                </div>
             </div>
-            <form class="form-group text-muted mt-3" action="#" th:action="@{/shop/new-comment}" th:object="${comment}" method="post" sec:authorize="hasRole('ROLE_USER')">
+            <form class="form-group text-muted mt-3" action="#" th:action="@{/shop/new-comment}" th:object="${new_review}" method="post" sec:authorize="hasRole('ROLE_USER')">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Add comment:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:field="*{review}"> </textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">choose a score from 1 to 5</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  th:field="*{comment}"> </textarea>
+                    <label for="exampleFormControlSelect1">Choose a score from 1 to 5</label>
                     <select th:field="*{rating}" class="form-control" id="exampleFormControlSelect1">
                         <option th:value="1">1</option>
                         <option th:value="2">2</option>
@@ -39,7 +41,16 @@
                         <option th:value="5">5</option>
                     </select>
                 </div>
-                <input th:field="*{product}" th:value="${{product}}" hidden>
+                <select th:field="*{product}" hidden>
+                    <option th:value="${{main_product}}"
+                            th:text="${main_product.title}">
+                    </option>
+                </select>
+                <select th:field="*{username}" hidden>
+                    <option th:value="${{userProfile}}"
+                            th:text="${userProfile.username}">
+                    </option>
+                </select>
                 <p><input class="btn btn-primary" type="submit" value="Submit" /></p>
             </form>
         </div>

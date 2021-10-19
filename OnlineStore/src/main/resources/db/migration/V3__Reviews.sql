@@ -19,4 +19,5 @@ CREATE index product_id_index on review_and_rating(product_id);
 INSERT INTO review_and_rating
 VALUES
     (1, 'user1', 2, 'So nice', 5),
-    (2, 'user2', 2, 'Good apples', 5);
+    (2, 'user1', 1, 'Good TV', 4),
+    (3, 'user2', 2, 'Good apples', 5);
