@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <div th:replace="~{fragments/header::header}">Header</div>
+        <div class="container">
+            <h1 class="display-4 d-flex justify-content-around mt-5 pt-3" th:text="${main_product.title}"> Header </h1>
+            <div class="d-flex justify-content-around">
+                <img th:src="@{${main_product.picturePath}}" class="rounded mb-3" alt="ProductIMG" style="width: 250px;">
+            </div>
+            <p>Category: <span th:text="${main_product.category.title}"></span></p>
+            <p>Price: <span th:text="${main_product.price}"></span></p>
+            <p>Comments:</p>
+            <div class="list-group">
+                <div class="list-group-item list-group-item-action" th:each="review : ${productReviews}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${review.username.username} + ':'"></h5>
+                        <small th:text="'&#9733;' + ${review.rating}"></small>
+                    </div>
+                    <p class="mb-1" th:text="${review.comment}">Comment</p>
+                </div>
+            </div>
+            <form class="form-group text-muted mt-3" action="#" th:action="@{/shop/new-comment}" th:object="${new_review}" method="post" sec:authorize="hasRole('ROLE_USER')">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Add comment:</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  th:field="*{comment}"> </textarea>
+                    <label for="exampleFormControlSelect1">Choose a score from 1 to 5</label>
+                    <select th:field="*{rating}" class="form-control" id="exampleFormControlSelect1">
+                        <option th:value="1">1</option>
+                        <option th:value="2">2</option>
+                        <option th:value="3">3</option>
+                        <option th:value="4">4</option>
+                        <option th:value="5">5</option>
+                    </select>
+                </div>
+                <select th:field="*{product}" hidden>
+                    <option th:value="${{main_product}}"
+                            th:text="${main_product.title}">
+                    </option>
+                </select>
+                <select th:field="*{username}" hidden>
+                    <option th:value="${{userProfile}}"
+                            th:text="${userProfile.username}">
+                    </option>
+                </select>
+                <p><input class="btn btn-primary" type="submit" value="Submit" /></p>
+            </form>
+        </div>
+    <div th:replace="~{fragments/footer::footer}">Footer</div>
+</body>
+</html>

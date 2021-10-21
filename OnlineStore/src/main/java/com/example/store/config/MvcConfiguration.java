@@ -14,7 +14,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String dirName = "data";
-        String staticPath = Paths.get("/workspace", dirName).toFile().getAbsolutePath();
+        String staticPath = Paths.get(System.getProperty("user.dir"), dirName).toFile().getAbsolutePath();
 
         registry.addResourceHandler("/" + dirName + "/**")
                 .addResourceLocations("file:///"+  staticPath + "/");
