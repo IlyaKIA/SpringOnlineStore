@@ -38,11 +38,14 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
+        user.setUserProfile(new UserProfile(user.getUsername(), "\\data\\images\\user\\blank-profile_640.png"));
+//        user.getUserProfile().set .setPicturePath("\\data\\images\\user\\blank-profile_640.png");
+
         user = userRepository.save(user);
         Authorities authorities = new Authorities(user.getUsername(), "ROLE_USER");
         authorities = authService.save(authorities);
-        UserProfile userProfile = new UserProfile(user.getUsername(),null, null, null, null, "\\data\\images\\user\\blank-profile_640.png" );
-        userProfileRepository.save(userProfile);
+//        UserProfile userProfile = new UserProfile(user.getUsername(),null, null, null, null, "\\data\\images\\user\\blank-profile_640.png" );
+//        userProfileRepository.save(userProfile);
         return user;
     }
 

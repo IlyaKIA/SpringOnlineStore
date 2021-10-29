@@ -1,20 +1,17 @@
 package com.example.store.service.impl;
 
-import com.example.store.domain.Category;
 import com.example.store.domain.Product;
 import com.example.store.repository.ProductRepository;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductService;
 import com.example.store.util.FileUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,25 +45,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Page<Product> getProductsFromCategory(String category, Pageable pageable) {
-        Page<Product> products = findAllProducts(pageable);
-        List<Category> categories =  categoryService.findAllCategory();
-        Category categoryFilter = null;
-        for (Category c : categories) {
-            if(c.getTitle().equals(category)){
-                categoryFilter = c;
-            }
-        }
-        if(categoryFilter == null){
-            return null;
-        }
-        List<Product> productsFilter = new ArrayList<>();
-        for(Product p : products){
-            if(p.getCategory().getId().equals(categoryFilter.getId())) {
-                productsFilter.add(p);
-            }
-        }
-        return new PageImpl<>(productsFilter, pageable, productsFilter.size());
+    public Page<Product> getProductsFromCategory(String categoryTitle, Pageable pageable) {
+        return productRepository.findByCategory_TitleEquals (categoryTitle, pageable);
     }
 
     @Override
@@ -96,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Page<Product> getProductsByCharSet(String charSet,  Pageable pageable) {
-        return productRepository.findByTitleLikeIgnoreCase("%" + charSet + "%", pageable);
+        return productRepository.findByTitleLikeIgnoreCase(charSet + "%", pageable);
     }
 
     @Override

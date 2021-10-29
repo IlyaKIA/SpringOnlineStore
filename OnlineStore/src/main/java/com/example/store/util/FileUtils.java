@@ -1,5 +1,6 @@
 package com.example.store.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class FileUtils {
 
     private static final String IMAGE_FOLDER_PATH = "/data/images";
@@ -16,45 +18,35 @@ public class FileUtils {
     private FileUtils() { }
 
     public static Path saveProductImage(MultipartFile imageFile) {
+        return saveImage(imageFile, PRODUCT_IMAGE_FOLDER_PATH);
+    }
+
+    private static Path saveImage(MultipartFile imageFile, String productImageFolderPath) {
         if (imageFile == null) {
             throw new IllegalArgumentException("Image file can not be null!");
         }
 
-        createDirectories(Paths.get(System.getProperty("user.dir"), PRODUCT_IMAGE_FOLDER_PATH));
+        createDirectories(Paths.get(System.getProperty("user.dir"), productImageFolderPath));
 
-        Path savePath = Paths.get(PRODUCT_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
-        saveFile(imageFile, Paths.get(System.getProperty("user.dir"), savePath.toString()));
-
+        Path savePath = Paths.get(productImageFolderPath, imageFile.getOriginalFilename());
+        try {
+            imageFile.transferTo(Paths.get(System.getProperty("user.dir"), savePath.toString()));
+        } catch (IOException e) {
+            throw new RuntimeException("Can't save file by path=" + Paths.get(System.getProperty("user.dir"), savePath.toString()));
+        }
         return savePath;
     }
 
     public static Path saveUserImage(MultipartFile imageFile) {
-        if (imageFile == null) {
-            throw new IllegalArgumentException("Image file can not be null!");
-        }
-
-        createDirectories(Paths.get(System.getProperty("user.dir"), USER_IMAGE_FOLDER_PATH));
-
-        Path savePath = Paths.get(USER_IMAGE_FOLDER_PATH, imageFile.getOriginalFilename());
-        saveFile(imageFile, Paths.get(System.getProperty("user.dir"), savePath.toString()));
-
-        return savePath;
+        return saveImage(imageFile, USER_IMAGE_FOLDER_PATH);
     }
 
     private static void createDirectories(Path path) {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
+            log.info("Can't create directory");
             e.printStackTrace();
         }
     }
-
-    private static void saveFile(MultipartFile file, Path path) {
-        try {
-            file.transferTo(path);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't save file by path=" + path);
-        }
-    }
-
 }

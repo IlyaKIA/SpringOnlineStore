@@ -15,4 +15,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategory_TitleEqualsAndPriceGreaterThanEqualAndPriceLessThanEqual (String categoryTitle, Integer minPrise, Integer maxPrise, Pageable pageable);
     Product findFirstByOrderByPrice();
     Product findFirstByOrderByPriceDesc();
+//    Page<Product> findProductsByCategory_Title(String categoryTitle);
 }

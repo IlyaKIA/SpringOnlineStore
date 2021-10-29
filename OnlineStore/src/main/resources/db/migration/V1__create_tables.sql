@@ -13,26 +13,26 @@ CREATE TABLE product (
     foreign key (category_id) references category(id)
 );
 
-INSERT INTO category
+INSERT INTO category (title)
 VALUES
-    (1,'Fruit'),
-    (2,'Baking'),
-    (3,'Electronics'),
-    (4,'Toys');
+    ('Fruit'),
+    ('Baking'),
+    ('Electronics'),
+    ('Toys');
 
-INSERT INTO product
+INSERT INTO product (title, price, category_id, picture_path)
 VALUES
-    (1,'TV',20000,3,'\data\images\product\monitor.png'),
-    (2,'Apple',120,1,'\data\images\product\apple.png'),
-    (3,'Muffin',40,2,'\data\images\product\muffin.png'),
-    (4,'Toaster',750,3,'\data\images\product\toast.png'),
-    (5,'Cake',85,2,'\data\images\product\cake.png'),
-    (6,'Doll',330,4,'\data\images\product\doll.png'),
-    (7,'Watch',2000,3,'\data\images\product\watch.png'),
-    (8,'Calculator',500,3,'\data\images\product\schoolCalc.png'),
-    (9,'Orange',200,1,'\data\images\product\orange.png'),
-    (10,'Bred',45,2,'\data\images\product\bread.png'),
-    (11,'Banana',110,1,'\data\images\product\bananas.png');
+    ('TV',20000,3,'\data\images\product\monitor.png'),
+    ('Apple',120,1,'\data\images\product\apple.png'),
+    ('Muffin',40,2,'\data\images\product\muffin.png'),
+    ('Toaster',750,3,'\data\images\product\toast.png'),
+    ('Cake',85,2,'\data\images\product\cake.png'),
+    ('Doll',330,4,'\data\images\product\doll.png'),
+    ('Watch',2000,3,'\data\images\product\watch.png'),
+    ('Calculator',500,3,'\data\images\product\schoolCalc.png'),
+    ('Orange',200,1,'\data\images\product\orange.png'),
+    ('Bred',45,2,'\data\images\product\bread.png'),
+    ('Banana',110,1,'\data\images\product\bananas.png');
 
 create table users(
     username varchar(50) not null primary key,

@@ -16,8 +16,8 @@ CREATE TABLE review_and_rating (
 CREATE index username_index on review_and_rating(username);
 CREATE index product_id_index on review_and_rating(product_id);
 
-INSERT INTO review_and_rating
+INSERT INTO review_and_rating (username, product_id, review, rating)
 VALUES
-    (1, 'user1', 2, 'So nice', 5),
-    (2, 'user1', 1, 'Good TV', 4),
-    (3, 'user2', 2, 'Good apples', 5);
+    ('user1', 2, 'So nice', 5),
+    ('user1', 1, 'Good TV', 4),
+    ('user2', 2, 'Good apples', 5);
