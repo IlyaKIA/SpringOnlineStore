@@ -24,5 +24,9 @@ public class User {
     @JoinColumn (name = "username", referencedColumnName = "username")
     private UserProfile userProfile;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn (name = "username", referencedColumnName = "username")
+    private Authorities authorities;
+
 }
 

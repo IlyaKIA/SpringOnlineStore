@@ -26,13 +26,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<Product> findAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
 
     @Override
-    @Transactional
     public Optional<Product> findById(long id) {
         return productRepository.findById(id);
     }
@@ -44,13 +43,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<Product> getProductsFromCategory(String categoryTitle, Pageable pageable) {
         return productRepository.findByCategory_TitleEquals (categoryTitle, pageable);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<Product> getProductsFiltered(String category, Integer minPrice, Integer maxPrice, Pageable pageable) {
         if(category != null && minPrice == null)
             return productRepository.findByCategory_TitleEquals(category, pageable);
@@ -62,19 +61,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Integer getMinPrice() {
         return productRepository.findFirstByOrderByPrice().getPrice();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Integer getMaxPrice() {
         return productRepository.findFirstByOrderByPriceDesc().getPrice();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<Product> getProductsByCharSet(String charSet,  Pageable pageable) {
         return productRepository.findByTitleLikeIgnoreCase(charSet + "%", pageable);
     }

@@ -26,12 +26,11 @@ public class AuthController {
     private UserProfileService userProfileService;
 
     @GetMapping("/edit-profile")
-    public String editUserProfile(@RequestParam String UserName, Model model) {
-        if(SecurityContextHolder.getContext().getAuthentication().getName().equals(UserName)) {
-            UserProfile userProfile = userProfileService.findByName(UserName).orElse(new UserProfile());
+    public String editUserProfile(Model model) {
+            UserProfile userProfile = userProfileService.findByName(
+                    SecurityContextHolder.getContext().getAuthentication().getName()).orElse(new UserProfile());
             model.addAttribute("userProfile", userProfile);
             return "authentication/user-profile";
-        } else return "redirect:/shop"; //TODO: error msg
     }
 
     @PostMapping("/edit-profile")

@@ -17,7 +17,6 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @ManyToOne
@@ -31,6 +30,5 @@ public class Review {
     @Column(name = "review")
     private String comment;
 
-    @Column
     private Integer rating;
 }
