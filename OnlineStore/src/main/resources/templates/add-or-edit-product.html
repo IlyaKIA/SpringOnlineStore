@@ -20,7 +20,7 @@
                 <input type="file" name="image" id="image">
                 <input th:if="${product.picturePath != null}" th:field="*{picturePath}" type="text" hidden/>
                 <p>Name: <input class="form-control" type="text" th:field="*{title}" /></p>
-                <p>Price: <input class="form-control"  type="text" th:field="*{price}" /></p>
+                <p>Price: <input class="form-control"  type="number" th:field="*{price}" /></p>
 
 <!--                <select class="custom-select mb-3" th:name="selectedCategory" th:field="*{category}" multiple>-->
 <!--                    <option value="0" selected>Select the category</option>-->

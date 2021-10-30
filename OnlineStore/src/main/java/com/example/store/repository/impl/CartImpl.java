@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-//@Scope("prototype")
+@Scope("prototype")
 public class CartImpl implements Cart {
 
 

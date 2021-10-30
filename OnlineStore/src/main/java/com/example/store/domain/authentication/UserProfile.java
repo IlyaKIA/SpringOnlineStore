@@ -15,22 +15,21 @@ import javax.persistence.*;
 @Table
 public class UserProfile {
 
+    public UserProfile(String username, String picturePath) {
+        this.username = username;
+        this.picturePath = picturePath;
+    }
+
     @Id
-    @Column
     private String username;
 
-    @Column
     private String name;
 
-    @Column
     private String email;
 
-    @Column
     private String phoneNumber;
 
-    @Column
     private String city;
 
-    @Column
     private String picturePath;
 }
