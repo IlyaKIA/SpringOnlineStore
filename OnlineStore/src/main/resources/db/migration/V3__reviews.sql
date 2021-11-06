@@ -7,11 +7,13 @@ CREATE TABLE review_and_rating (
 
     constraint fk_users_review
         foreign key(username)
-        references user_profile(username),
+        references user_profile(username)
+        ON DELETE CASCADE,
 
     constraint fk_product_review
         foreign key(product_id)
         references product(id)
+        ON DELETE CASCADE
 );
 CREATE index username_index on review_and_rating(username);
 CREATE index product_id_index on review_and_rating(product_id);

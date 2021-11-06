@@ -3,6 +3,7 @@ package com.example.store.domain.authentication;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -24,9 +25,9 @@ public class User {
     @JoinColumn (name = "username", referencedColumnName = "username")
     private UserProfile userProfile;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn (name = "username", referencedColumnName = "username")
-    private Authorities authorities;
+    private List<Authorities> authorities;
 
 }
 

@@ -9,7 +9,7 @@
 
     </head>
     <body>
-        <div class="fixed-top container" th:fragment="header">
+        <div class="sticky-top container" th:fragment="header">
           <div class="collapse " id="navbarToggleExternalContent">
               <div class="bg-dark p-4">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -25,18 +25,18 @@
                 </ul>
               </div>
           </div>
-          <nav class="navbar navbar-dark bg-dark">
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <nav class="navbar navbar-dark bg-dark justify-content-around" >
+              <button class="navbar-toggler mb-2" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-              <div class="form-inline">
-                  <a th:href="@{/shop}" class="btn btn-outline-primary me-2 mr-2">Home</a>
-                  <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2 mr-2">Sign in</a>
-                  <a th:href="@{/auth/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2 mr-2">Sign up</a>
-                  <a th:href="@{/logout}" sec:authorize="isAuthenticated()" class="btn btn-success me-2 mr-2">Sign out</a>
+              <div class="form-inline justify-content-around">
+                  <a th:href="@{/shop}" class="btn btn-outline-primary me-2 mr-1 ml-1">Home</a>
+                  <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2 mr-1 ml-1">Sign in</a>
+                  <a th:href="@{/auth/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2 mr-1 ml-1">Sign up</a>
+                  <a th:href="@{/logout}" sec:authorize="isAuthenticated()" class="btn btn-success me-2 mr-1 ml-1">Sign out</a>
                   <a th:href="@{/shop/cart}" sec:authorize="isAuthenticated()" class="btn btn-outline-primary mr-3 ">Cart</a>
-                  <form class="form-inline my-2 my-lg-0" th:action="@{/shop}" method="get">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  th:name="search">
+                  <form class="form-inline my-2 my-lg-0 justify-content-around" th:action="@{/shop}" method="get">
+                    <input class="form-control sm-2 mr-1 ml-1" type="search" placeholder="Search" aria-label="Search"  th:name="search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                   </form>
                   <a th:href="@{/auth/edit-profile}" sec:authorize="isAuthenticated()">

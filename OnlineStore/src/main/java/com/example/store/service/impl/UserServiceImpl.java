@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         user = userRepository.save(user);
         user.setUserProfile(new UserProfile(user.getUsername(), "\\data\\images\\user\\blank-profile_640.png"));
-        user.setAuthorities(new Authorities(user.getUsername(),"ROLE_USER"));
+        user.setAuthorities(List.of(new Authorities(user.getUsername(),"ROLE_USER")));
         user = userRepository.save(user);
         return user;
     }
